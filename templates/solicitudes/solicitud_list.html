@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Listado de Solicitudes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Título del Estudio</th>
+        <th>Responsable Principal</th>
+        <th>Email Principal</th>
+        <th>Institución Principal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for solicitud in solicitudes %}
+        <tr>
+          <td>{{ solicitud.titulo_estudio }}</td>
+          <td>{{ solicitud.nombres_principal }} {{ solicitud.apellidos_principal }}</td>
+          <td>{{ solicitud.email_principal }}</td>
+          <td>{{ solicitud.institucion_principal }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

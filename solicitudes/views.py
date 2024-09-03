@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
@@ -22,3 +24,9 @@ class SolicitudCreateView(FormView):
 
 class SolicitudEnviadaView(TemplateView):
     template_name = 'solicitudes/solicitud_enviada.html'
+
+class SolicitudListView(LoginRequiredMixin, ListView):
+    model = Solicitud
+    template_name = 'solicitudes/solicitud_list.html'
+    context_object_name = 'solicitudes'
+    login_url = '/login/'  # URL para redirigir a los usuarios no autenticados

@@ -1,6 +1,9 @@
 from django.db import models
 
 class Solicitud(models.Model):
+    #Primero registro la fecha
+    fecha_solicitud = models.DateTimeField(auto_now_add=True)
+
     # Responsable principal
     nombres_principal = models.CharField(max_length=100)
     apellidos_principal = models.CharField(max_length=100)
@@ -36,3 +39,6 @@ class Solicitud(models.Model):
     caracteristicas_poblacion = models.TextField(max_length=500)
     utilidad_estudio = models.CharField(max_length=500)
     institucion_avala = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f"{self.fecha_solicitud} - {self.apellidos_principal}, {self.nombres_principal}"
