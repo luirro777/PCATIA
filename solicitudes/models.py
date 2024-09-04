@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils import timezone
 
 class Solicitud(models.Model):
     #Primero registro la fecha
-    fecha_solicitud = models.DateTimeField(auto_now_add=True)
+    fecha_solicitud = models.DateTimeField(default=timezone.now)
 
     # Responsable principal
     nombres_principal = models.CharField(max_length=100)
@@ -13,7 +14,7 @@ class Solicitud(models.Model):
     pais_principal = models.CharField(max_length=100)
     rol_estudio_principal = models.CharField(max_length=200)
     email_principal = models.EmailField()
-    telefono_principal = models.CharField(max_length=20)
+    telefono_principal = models.CharField(max_length=20)    
 
     # Responsable alterno
     nombres_alterno = models.CharField(max_length=100)
@@ -39,6 +40,9 @@ class Solicitud(models.Model):
     caracteristicas_poblacion = models.TextField(max_length=500)
     utilidad_estudio = models.CharField(max_length=500)
     institucion_avala = models.CharField(max_length=300)
+
+    class Meta:
+        verbose_name_plural = "Solicitudes"
 
     def __str__(self):
         return f"{self.fecha_solicitud} - {self.apellidos_principal}, {self.nombres_principal}"
