@@ -43,6 +43,9 @@
   <p><strong>Características de la Población:</strong> {{ solicitud.caracteristicas_poblacion }}</p>
   <p><strong>Utilidad del Estudio:</strong> {{ solicitud.utilidad_estudio }}</p>
   <p><strong>Institución que Avala:</strong> {{ solicitud.institucion_avala }}</p>
+  <br>
+  <a href="{% url 'solicitudes:generar_documento' solicitud.id %}"><button>Generar Acta</button></a>
+  <br>
   
   <!-- Botón para volver al listado -->
   <a href="{% url 'solicitudes:solicitud-list' %}"><button>Volver al Listado</button></a>
