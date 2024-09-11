@@ -1,17 +1,24 @@
+# Django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.urls import reverse_lazy
-from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View)
-from django.views.generic.edit import FormView
-from .models import Solicitud
-from .forms import SolicitudForm
-from docxtpl import DocxTemplate
-import uuid
-import os
 from django.core.files.storage import default_storage
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import redirect
 from django.http import HttpResponse
+
+# Vistas
+from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View)
+from django.views.generic.edit import FormView
+
+# Models
+from .models import Solicitud
+from .forms import SolicitudForm
+
+# Apps de terceros
+from docxtpl import DocxTemplate
+import uuid
+import os
 
 class SolicitudCreateView(FormView):    
     form_class = SolicitudForm
@@ -45,9 +52,9 @@ class SolicitudDetailView(LoginRequiredMixin, DetailView):
     template_name = 'solicitudes/solicitud_detail.html'
 
 # Generacion de docx
-class GenerarDocumentoView(DetailView):
+class GenerarDocumentoView(LoginRequiredMixin, DetailView):
     model = Solicitud
-    template_name = 'solicitudes/generar_documento.html'  # Una plantilla opcional si quieres mostrar algo en pantalla
+    template_name = 'solicitudes/generar_documento.html'  
 
     def get(self, request, *args, **kwargs):
         solicitud = self.get_object()
@@ -83,7 +90,7 @@ class GenerarDocumentoView(DetailView):
         # Redirigir a la vista de descarga con el archivo generado
         return redirect('solicitudes:descargar_documento', file_name=file_name)
 
-class DescargarDocumentoView(View):
+class DescargarDocumentoView(LoginRequiredMixin, View):
     
     def get(self, request, file_name):
         file_path = os.path.join('media', 'temp_docs', file_name)

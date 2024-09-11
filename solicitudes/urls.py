@@ -1,6 +1,14 @@
 from django.urls import path
-from .views import SolicitudCreateView, SolicitudEnviadaView, SolicitudListView, SolicitudDeleteView, SolicitudDetailView, GenerarDocumentoView, DescargarDocumentoView
-from django.views.generic.base import TemplateView  # Importa TemplateView
+from django.views.generic.base import TemplateView
+from .views import (
+    SolicitudCreateView, 
+    SolicitudEnviadaView, 
+    SolicitudListView, 
+    SolicitudDeleteView, 
+    SolicitudDetailView, 
+    GenerarDocumentoView, 
+    DescargarDocumentoView
+)
 
 app_name = 'solicitudes'
 
