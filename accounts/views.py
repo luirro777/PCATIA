@@ -6,6 +6,7 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
+from .forms import CustomAuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -16,6 +17,7 @@ class UserRegisterView(CreateView):
     success_url = reverse_lazy('login')
 
 class UserLoginView(LoginView):
+    form_class = CustomAuthenticationForm 
     template_name = 'accounts/login.html'
     success_url = reverse_lazy('solicitudes:solicitudes-list')
 
