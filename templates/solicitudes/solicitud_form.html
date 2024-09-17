@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container mt-4 mb-4">
     <h1 class="mb-4">Solicitud de instrumentos PCATIA</h1>
@@ -28,142 +28,53 @@
     </p>
     <!-- Formulario de Solicitud -->
     <h2 class="mt-5">Formulario de Solicitud</h2>
-    <form method="post" action="{% url 'solicitudes:crear_solicitud' %}">
+    <form method="post">
         {% csrf_token %}
         
         <!-- Información de contacto principal -->
         <h2 class="mt-4">Responsable principal de la aplicación</h2>
-        <div class="form-group">
-            <label for="nombres_principal">Nombres:</label>
-            <input type="text" class="form-control" id="nombres_principal" name="nombres_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="apellidos_principal">Apellidos:</label>
-            <input type="text" class="form-control" id="apellidos_principal" name="apellidos_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="cargo_principal">Cargo:</label>
-            <input type="text" class="form-control" id="cargo_principal" name="cargo_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="institucion_principal">Institución:</label>
-            <input type="text" class="form-control" id="institucion_principal" name="institucion_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="ciudad_principal">Ciudad o Localidad:</label>
-            <input type="text" class="form-control" id="ciudad_principal" name="ciudad_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="pais_principal">País:</label>
-            <input type="text" class="form-control" id="pais_principal" name="pais_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="rol_estudio_principal">Rol en el estudio que se llevará a cabo:</label>
-            <input type="text" class="form-control" id="rol_estudio_principal" name="rol_estudio_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="email_principal">Correo electrónico:</label>
-            <input type="email" class="form-control" id="email_principal" name="email_principal" required>
-        </div>
-        <div class="form-group">
-            <label for="telefono_principal">Teléfono celular:</label>
-            <input type="text" class="form-control" id="telefono_principal" name="telefono_principal" required>
-        </div>
-
+        {{ form.nombres_principal|as_crispy_field }}
+        {{ form.apellidos_principal|as_crispy_field }}
+        {{ form.cargo_principal|as_crispy_field }}
+        {{ form.institucion_principal|as_crispy_field }}
+        {{ form.ciudad_principal|as_crispy_field }}
+        {{ form.pais_principal|as_crispy_field }}
+        {{ form.rol_estudio_principal|as_crispy_field }}
+        {{ form.email_principal|as_crispy_field }}
+        {{ form.telefono_principal|as_crispy_field }}
+    
         <!-- Información de contacto secundario -->
         <h2 class="mt-4">Responsable alterno de la aplicación</h2>
-        <div class="form-group">
-            <label for="nombres_alterno">Nombres:</label>
-            <input type="text" class="form-control" id="nombres_alterno" name="nombres_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="apellidos_alterno">Apellidos:</label>
-            <input type="text" class="form-control" id="apellidos_alterno" name="apellidos_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="cargo_alterno">Cargo:</label>
-            <input type="text" class="form-control" id="cargo_alterno" name="cargo_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="institucion_alterno">Institución:</label>
-            <input type="text" class="form-control" id="institucion_alterno" name="institucion_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="ciudad_alterno">Ciudad o Localidad:</label>
-            <input type="text" class="form-control" id="ciudad_alterno" name="ciudad_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="pais_alterno">País:</label>
-            <input type="text" class="form-control" id="pais_alterno" name="pais_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="rol_estudio_alterno">Rol en el estudio que se llevará a cabo:</label>
-            <input type="text" class="form-control" id="rol_estudio_alterno" name="rol_estudio_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="email_alterno">Correo electrónico:</label>
-            <input type="email" class="form-control" id="email_alterno" name="email_alterno" required>
-        </div>
-        <div class="form-group">
-            <label for="telefono_alterno">Teléfono celular:</label>
-            <input type="text" class="form-control" id="telefono_alterno" name="telefono_alterno" required>
-        </div>
-
+        {{ form.nombres_alterno|as_crispy_field }}
+        {{ form.apellidos_alterno|as_crispy_field }}
+        {{ form.cargo_alterno|as_crispy_field }}
+        {{ form.institucion_alterno|as_crispy_field }}
+        {{ form.ciudad_alterno|as_crispy_field }}
+        {{ form.pais_alterno|as_crispy_field }}
+        {{ form.rol_estudio_alterno|as_crispy_field }}
+        {{ form.email_alterno|as_crispy_field }}
+        {{ form.telefono_alterno|as_crispy_field }}
+    
         <!-- Uso curricular de los instrumentos -->
         <h2 class="mt-4">Uso curricular de los instrumentos</h2>
-        <div class="form-group">
-            <label for="uso_curricular">¿La aplicación forma parte de un estudio curricular en el marco de un posgrado académico o profesional?</label>
-            <select class="form-control" id="uso_curricular" name="uso_curricular">
-                <option value="">Seleccione...</option>
-                <option value="Sí">Sí</option>
-                <option value="No">No</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="carrera_posgrado">Carrera de posgrado:</label>
-            <input type="text" class="form-control" id="carrera_posgrado" name="carrera_posgrado">
-        </div>
-        <div class="form-group">
-            <label for="estudiantes">Estudiante/s:</label>
-            <input type="text" class="form-control" id="estudiantes" name="estudiantes">
-        </div>
-        <div class="form-group">
-            <label for="responsables_orientacion">Responsables de la orientación, tutoría, asesoramiento o dirección del trabajo:</label>
-            <input type="text" class="form-control" id="responsables_orientacion" name="responsables_orientacion">
-        </div>
-
+        {{ form.uso_curricular|as_crispy_field }}
+        {{ form.carrera_posgrado|as_crispy_field }}
+        {{ form.estudiantes|as_crispy_field }}
+        {{ form.responsables_orientacion|as_crispy_field }}
+    
         <!-- Datos del proyecto -->
         <h2 class="mt-4">Datos del proyecto</h2>
-        <div class="form-group">
-            <label for="titulo_estudio">Título o tema del estudio:</label>
-            <input type="text" class="form-control" id="titulo_estudio" name="titulo_estudio" maxlength="200" required>
-        </div>
-        <div class="form-group">
-            <label for="objetivo">Objetivo:</label>
-            <textarea class="form-control" id="objetivo" name="objetivo" maxlength="500" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="descripcion_metodologia">Descripción de la Metodología:</label>
-            <textarea class="form-control" id="descripcion_metodologia" name="descripcion_metodologia" maxlength="1500" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="caracteristicas_poblacion">Características de la Población:</label>
-            <textarea class="form-control" id="caracteristicas_poblacion" name="caracteristicas_poblacion" maxlength="500" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="utilidad_estudio">Utilidad del Estudio:</label>
-            <input type="text" class="form-control" id="utilidad_estudio" name="utilidad_estudio" maxlength="500" required>
-        </div>
-        <div class="form-group">
-            <label for="institucion_avala">Institución que Avala:</label>
-            <input type="text" class="form-control" id="institucion_avala" name="institucion_avala" maxlength="200" required>
-        </div>
-
-        
-
+        {{ form.titulo_estudio|as_crispy_field }}
+        {{ form.objetivo|as_crispy_field }}
+        {{ form.descripcion_metodologia|as_crispy_field }}
+        {{ form.caracteristicas_poblacion|as_crispy_field }}
+        {{ form.utilidad_estudio|as_crispy_field }}
+        {{ form.institucion_avala|as_crispy_field }}
+    
         <!-- Botón de envío -->
         <button type="submit" class="btn btn-primary mt-4">Enviar Solicitud</button>
     </form>
+    
    
 </div>
 {% endblock %}

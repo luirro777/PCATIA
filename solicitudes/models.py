@@ -28,7 +28,7 @@ class Solicitud(models.Model):
     telefono_alterno = models.CharField(max_length=20)
 
     # Información del estudio
-    uso_curricular = models.BooleanField(default=False)
+    uso_curricular = models.CharField(max_length=3, choices=[('Sí', 'Sí'), ('No', 'No')], blank=False)
     carrera_posgrado = models.CharField(max_length=200, blank=True)
     estudiantes = models.CharField(max_length=200, blank=True)
     responsables_orientacion = models.CharField(max_length=200, blank=True)

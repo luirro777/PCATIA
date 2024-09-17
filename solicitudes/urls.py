@@ -1,8 +1,13 @@
 from django.urls import path
 from django.views.generic.base import TemplateView
 from .views import (
-    SolicitudCreateView, 
-    SolicitudEnviadaView, 
+    # Vistas relacionadas al registro de la solicitud
+    SolicitudCreateView,
+    SolicitudReviewView,
+    SolicitudUpdateView,
+    SolicitudConfirmView,
+
+    # Vistas relacionadas al perfil de admin    
     SolicitudListView, 
     SolicitudDeleteView, 
     SolicitudDetailView, 
@@ -14,10 +19,12 @@ app_name = 'solicitudes'
 
 urlpatterns = [
     path('solicitud/', SolicitudCreateView.as_view(), name='crear_solicitud'),
-    path('solicitud-enviada/', SolicitudEnviadaView.as_view(), name='solicitud_enviada'),
+    path('review/', SolicitudReviewView.as_view(), name='solicitud_review'),
+    path('edit/', SolicitudUpdateView.as_view(), name='solicitud_edit'),
+    path('confirmar/', SolicitudConfirmView.as_view(), name='solicitud_confirmar'),    
     path('solicitudes/', SolicitudListView.as_view(), name='solicitud-list'),
-    path('solicitudes/<int:pk>/', SolicitudDetailView.as_view(), name='solicitud_detail'),    
-    path('solicitudes/<int:pk>/borrar/', SolicitudDeleteView.as_view(), name='solicitud_delete'),
+    path('<int:pk>/', SolicitudDetailView.as_view(), name='solicitud_detail'),    
+    path('<int:pk>/borrar/', SolicitudDeleteView.as_view(), name='solicitud_delete'),
     path('generar_documento/<int:pk>/', GenerarDocumentoView.as_view(), name='generar_documento'),
     path('descargar_documento/<str:file_name>/', DescargarDocumentoView.as_view(), name='descargar_documento'),    
 ]

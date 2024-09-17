@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 
 # Vistas
-from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View)
+from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View, UpdateView, CreateView)
 from django.views.generic.edit import FormView
 
 # Models
@@ -23,18 +23,54 @@ import os
 class SolicitudCreateView(FormView):    
     form_class = SolicitudForm
     template_name = 'solicitudes/solicitud_form.html'
-    success_url = reverse_lazy('solicitudes:solicitud_enviada')
+    success_url = reverse_lazy('solicitudes:solicitud_review')
 
-    def form_valid(self, form):       
-        form.save()      
+    def form_valid(self, form):
+        self.request.session['form_data'] = form.cleaned_data
         return super().form_valid(form)
-    
-    def form_invalid(self, form):        
-        print(form.errors.as_data())
-        return super().form_invalid(form)
 
-class SolicitudEnviadaView(TemplateView):
-    template_name = 'solicitudes/solicitud_enviada.html'
+class SolicitudReviewView(TemplateView):    
+    template_name = 'solicitudes/solicitud_review.html'    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_data'] = self.request.session.get('form_data', {})
+        return context
+    
+class SolicitudUpdateView(FormView):    
+    form_class = SolicitudForm
+    template_name = 'solicitudes/solicitud_form.html'
+    
+    def get_form(self, form_class=None):
+        # Prepopulate the form with data from the session
+        form = super().get_form(form_class)
+        form.initial = self.request.session.get('form_data', {})
+        return form
+
+    def form_valid(self, form):
+        self.request.session['form_data'] = form.cleaned_data
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('solicitudes:solicitud_review')
+
+class SolicitudConfirmView(TemplateView):    
+    template_name = 'solicitudes/solicitud_confirmar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_data'] = self.request.session.get('form_data', {})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_data = request.session.get('form_data', {})
+        if form_data:
+            # Save the form data to the database
+            Solicitud.objects.create(**form_data)
+            # Clear the session data
+            request.session.pop('form_data', None)
+        return self.render_to_response(self.get_context_data())
+
 
 class SolicitudListView(LoginRequiredMixin, ListView):
     model = Solicitud
