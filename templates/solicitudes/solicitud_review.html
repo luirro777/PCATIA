@@ -35,9 +35,11 @@
   <!-- Uso curricular de los instrumentos -->
   <h3>Uso Curricular de los Instrumentos</h3>
   <p><strong>¿Forma parte de un estudio curricular?:</strong> {{ form_data.uso_curricular }}</p>
-  <p><strong>Carrera de Posgrado:</strong> {{ form_data.carrera_posgrado }}</p>
-  <p><strong>Estudiantes:</strong> {{ form_data.estudiantes }}</p>
-  <p><strong>Responsables de Orientación:</strong> {{ form_data.responsables_orientacion }}</p>
+  {% if form_data.uso_curricular == "Sí" %}
+    <p><strong>Carrera de Posgrado:</strong> {{ form_data.carrera_posgrado }}</p>
+    <p><strong>Estudiantes:</strong> {{ form_data.estudiantes }}</p>
+    <p><strong>Responsables de Orientación:</strong> {{ form_data.responsables_orientacion }}</p>
+{% endif %}
 
   <!-- Datos del proyecto -->
   <h3>Datos del Proyecto</h3>

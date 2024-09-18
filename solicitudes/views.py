@@ -66,6 +66,7 @@ class SolicitudConfirmView(TemplateView):
         form_data = request.session.get('form_data', {})
         if form_data:
             # Save the form data to the database
+            form_data.pop('captcha', None)  # Elimina 'captcha' si existe
             Solicitud.objects.create(**form_data)
             # Clear the session data
             request.session.pop('form_data', None)
