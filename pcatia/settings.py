@@ -133,7 +133,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = reverse_lazy('solicitudes:solicitud-list')
+LOGIN_REDIRECT_URL = reverse_lazy('solicitudes:solicitud_list')
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  

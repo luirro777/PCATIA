@@ -5,11 +5,11 @@
 
 <form action="{% url 'solicitudes:solicitud_confirmar' %}" method="post">
   {% csrf_token %}
-  <h2>Detalle de la form_data</h2>
+  <h2>Detalle de la solicitud</h2>
   
   
   <!-- Información de contacto principal -->
-  <h3>Responsable Principal de la Aplicación</h3>
+  <h4>Responsable Principal de la Aplicación</h4>
   <p><strong>Nombres:</strong> {{ form_data.nombres_principal }}</p>
   <p><strong>Apellidos:</strong> {{ form_data.apellidos_principal }}</p>
   <p><strong>Cargo:</strong> {{ form_data.cargo_principal }}</p>
@@ -21,7 +21,7 @@
   <p><strong>Teléfono Celular:</strong> {{ form_data.telefono_principal }}</p>
 
   <!-- Información de contacto secundario -->
-  <h3>Responsable Alterno de la Aplicación</h3>
+  <h4>Responsable Alterno de la Aplicación</h4>
   <p><strong>Nombres:</strong> {{ form_data.nombres_alterno }}</p>
   <p><strong>Apellidos:</strong> {{ form_data.apellidos_alterno }}</p>
   <p><strong>Cargo:</strong> {{ form_data.cargo_alterno }}</p>
@@ -33,7 +33,7 @@
   <p><strong>Teléfono Celular:</strong> {{ form_data.telefono_alterno }}</p>
 
   <!-- Uso curricular de los instrumentos -->
-  <h3>Uso Curricular de los Instrumentos</h3>
+  <h4>Uso Curricular de los Instrumentos</h4>
   <p><strong>¿Forma parte de un estudio curricular?:</strong> {{ form_data.uso_curricular }}</p>
   {% if form_data.uso_curricular == "Sí" %}
     <p><strong>Carrera de Posgrado:</strong> {{ form_data.carrera_posgrado }}</p>
@@ -42,7 +42,7 @@
 {% endif %}
 
   <!-- Datos del proyecto -->
-  <h3>Datos del Proyecto</h3>
+  <h4>Datos del Proyecto</h4>
   <p><strong>Título o Tema del Estudio:</strong> {{ form_data.titulo_estudio }}</p>
   <p><strong>Objetivo:</strong> {{ form_data.objetivo }}</p>
   <p><strong>Descripción de la Metodología:</strong> {{ form_data.descripcion_metodologia }}</p>

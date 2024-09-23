@@ -20,6 +20,11 @@ from docxtpl import DocxTemplate
 import uuid
 import os
 
+
+class HomeView(TemplateView):
+    template_name = "solicitudes/home.html"
+
+
 class SolicitudCreateView(FormView):    
     form_class = SolicitudForm
     template_name = 'solicitudes/solicitud_form.html'
@@ -72,12 +77,10 @@ class SolicitudConfirmView(TemplateView):
             request.session.pop('form_data', None)
         return self.render_to_response(self.get_context_data())
 
-
 class SolicitudListView(LoginRequiredMixin, ListView):
     model = Solicitud
     template_name = 'solicitudes/solicitud_list.html'
-    context_object_name = 'solicitudes'
-    login_url = '/login/' 
+    context_object_name = 'solicitudes'    
 
 class SolicitudDeleteView(LoginRequiredMixin, DeleteView):
     model = Solicitud
