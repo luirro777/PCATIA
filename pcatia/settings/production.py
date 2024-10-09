@@ -1,15 +1,9 @@
 from .base import *
 import json
 import os
+from decouple import config
 
-DEBUG = True
-
-# Ruta al archivo JSON
-config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-
-# Cargar la configuración desde el archivo JSON
-with open(config_path) as config_file:
-    config = json.load(config_file)
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['pcatia.luisromano.com.ar','localhost']
@@ -18,15 +12,15 @@ ALLOWED_HOSTS = ['pcatia.luisromano.com.ar','localhost']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config['DJANGO_DB_NAME'],
-        'USER': config['DJANGO_DB_USER'],
-        'PASSWORD': config['DJANGO_DB_PASSWORD'],
-        'HOST': config['DJANGO_DB_HOST'],
-        'PORT': config['DJANGO_DB_PORT'],
+        'NAME': config('DJANGO_DB_NAME'),
+        'USER': config('DJANGO_DB_USER'),
+        'PASSWORD': config('DJANGO_DB_PASSWORD'),
+        'HOST': config('DJANGO_DB_HOST'),
+        'PORT': config('DJANGO_DB_PORT'),
     }
 }
 
-SECRET_KEY = config['DJANGO_SECRET_KEY']
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 os.environ['DJANGO_SETTINGS_MODULE'] = config['DJANGO_SETTINGS_MODULE']
 
 
