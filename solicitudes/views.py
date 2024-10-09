@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Vistas
 from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View, UpdateView, CreateView)
@@ -58,7 +60,7 @@ class SolicitudUpdateView(FormView):
 
     def get_success_url(self):
         return reverse_lazy('solicitudes:solicitud_review')
-
+'''
 class SolicitudConfirmView(TemplateView):    
     template_name = 'solicitudes/solicitud_confirmar.html'
 
@@ -76,6 +78,44 @@ class SolicitudConfirmView(TemplateView):
             # Clear the session data
             request.session.pop('form_data', None)
         return self.render_to_response(self.get_context_data())
+'''
+class SolicitudConfirmView(TemplateView):    
+    template_name = 'solicitudes/solicitud_confirmar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_data'] = self.request.session.get('form_data', {})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form_data = request.session.get('form_data', {})
+        if form_data:
+            # Save the form data to the database
+            form_data.pop('captcha', None)  # Elimina 'captcha' si existe
+            solicitud = Solicitud.objects.create(**form_data)
+
+            # Enviar correo electrónico con los datos del formulario
+            subject = 'Nueva solicitud recibida'
+            # Renderizamos un template HTML para el contenido del email
+            html_message = render_to_string('solicitudes/email_template.html', {'solicitud': solicitud})
+            plain_message = strip_tags(html_message)
+            from_email = 'ing.luisrobertoromano@gmail.com'
+            to = 'lromano@adiuc.org.ar'
+
+            send_mail(
+                subject,
+                plain_message,
+                from_email,
+                [to],
+                html_message=html_message,  # Envía el mensaje HTML si el cliente lo soporta
+                fail_silently=False,
+            )
+
+            # Clear the session data
+            request.session.pop('form_data', None)
+        
+        return self.render_to_response(self.get_context_data())
+
 
 class SolicitudListView(LoginRequiredMixin, ListView):
     model = Solicitud
