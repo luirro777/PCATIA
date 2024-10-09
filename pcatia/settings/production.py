@@ -21,7 +21,7 @@ DATABASES = {
 }
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
-os.environ['DJANGO_SETTINGS_MODULE'] = config['DJANGO_SETTINGS_MODULE']
+#os.environ['DJANGO_SETTINGS_MODULE'] = config['DJANGO_SETTINGS_MODULE']
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')

@@ -12,7 +12,7 @@ echo "Servicio gunicorn activado"
 ## systemctl status gunicorn
 
 
-cp nginx/myproject.conf /etc/nginx/sites-available/
+cp nginx/pcatia.conf /etc/nginx/sites-available/
 echo "Archivo nginx copiado. No olvidar hacer enlace simbolico"
 
 
