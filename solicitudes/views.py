@@ -125,7 +125,7 @@ class SolicitudListView(LoginRequiredMixin, ListView):
 class SolicitudDeleteView(LoginRequiredMixin, DeleteView):
     model = Solicitud
     template_name = 'solicitudes/solicitud_confirm_delete.html'
-    success_url = reverse_lazy('solicitud_list')
+    success_url = reverse_lazy('solicitudes:solicitud_list')
 
 class SolicitudDetailView(LoginRequiredMixin, DetailView):
     model = Solicitud
