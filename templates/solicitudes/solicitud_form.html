@@ -24,7 +24,18 @@
         {{ form.pais_principal|as_crispy_field }}
         {{ form.rol_estudio_principal|as_crispy_field }}
         {{ form.email_principal|as_crispy_field }}
-        {{ form.telefono_principal|as_crispy_field }}
+        <p>Teléfono:</p>
+        <div class="form-row">
+            <div class="col">
+                {{ form.codigo_internacional|as_crispy_field }}
+            </div>
+            <div class="col">
+                {{ form.codigo_area|as_crispy_field }}
+            </div>
+            <div class="col">
+                {{ form.numero_telefono|as_crispy_field }}
+            </div>
+        </div>
     
         <!-- Información de contacto secundario -->
         <h4 class="mt-4">Responsable alterno de la aplicación</h4>
@@ -36,7 +47,18 @@
         {{ form.pais_alterno|as_crispy_field }}
         {{ form.rol_estudio_alterno|as_crispy_field }}
         {{ form.email_alterno|as_crispy_field }}
-        {{ form.telefono_alterno|as_crispy_field }}
+        <p>Teléfono:</p>
+        <div class="form-row">
+            <div class="col">
+                {{ form.codigo_internacional_alterno|as_crispy_field }}
+            </div>
+            <div class="col">
+                {{ form.codigo_area_alterno|as_crispy_field }}
+            </div>
+            <div class="col">
+                {{ form.numero_telefono_alterno|as_crispy_field }}
+            </div>
+        </div>
     
         <!-- Uso curricular de los instrumentos -->
         <h4 class="mt-4">Uso curricular de los instrumentos</h4>

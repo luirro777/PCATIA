@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
 
 # Vistas
 from django.views.generic import (DetailView, DeleteView, ListView, TemplateView, View, UpdateView, CreateView)
@@ -33,8 +34,31 @@ class SolicitudCreateView(FormView):
     success_url = reverse_lazy('solicitudes:solicitud_review')
 
     def form_valid(self, form):
+        # Concatenar los campos del teléfono
+        codigo_internacional = form.cleaned_data.get('codigo_internacional')
+        codigo_area = form.cleaned_data.get('codigo_area')
+        numero_telefono = form.cleaned_data.get('numero_telefono')
+
+        codigo_internacional_alterno = form.cleaned_data.get('codigo_internacional_alterno')
+        codigo_area_alterno = form.cleaned_data.get('codigo_area_alterno')
+        numero_telefono_alterno = form.cleaned_data.get('numero_telefono_alterno')
+
+        telefono_principal = f"{codigo_internacional} ({codigo_area}) {numero_telefono}"
+        telefono_alterno = f"{codigo_internacional_alterno} ({codigo_area_alterno}) {numero_telefono_alterno}"
+
+        # Asignar los valores concatenados a los campos del modelo
+        solicitud = form.save(commit=False)
+        solicitud.telefono_principal = telefono_principal
+        solicitud.telefono_alterno = telefono_alterno
+
         self.request.session['form_data'] = form.cleaned_data
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        print("Formulario es inválido")
+        print(form.errors)  # Imprime los errores en la consola
+        return super().form_invalid(form)
+
 
 class SolicitudReviewView(TemplateView):    
     template_name = 'solicitudes/solicitud_review.html'    
@@ -89,8 +113,23 @@ class SolicitudConfirmView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         form_data = request.session.get('form_data', {})
-        if form_data:
-            # Save the form data to the database
+        if form_data:            
+            # Armar los campos de telefono
+            telefono_principal = f"{form_data.get('codigo_internacional', '')} {form_data.get('codigo_area', '')} {form_data.get('numero_telefono', '')}"
+            telefono_alterno = f"{form_data.get('codigo_internacional_alterno', '')} {form_data.get('codigo_area_alterno', '')} {form_data.get('numero_telefono_alterno', '')}"
+            
+            # Eliminar los campos desglosados del form_data
+            form_data.pop('codigo_internacional', None)
+            form_data.pop('codigo_area', None)
+            form_data.pop('numero_telefono', None)
+            form_data.pop('codigo_internacional_alterno', None)
+            form_data.pop('codigo_area_alterno', None)
+            form_data.pop('numero_telefono_alterno', None)
+
+            # Agregar los teléfonos completos al form_data
+            form_data['telefono_principal'] = telefono_principal
+            form_data['telefono_alterno'] = telefono_alterno
+
             form_data.pop('captcha', None)  # Elimina 'captcha' si existe
             solicitud = Solicitud.objects.create(**form_data)
 
@@ -99,8 +138,8 @@ class SolicitudConfirmView(TemplateView):
             # Renderizamos un template HTML para el contenido del email
             html_message = render_to_string('solicitudes/email_template.html', {'solicitud': solicitud})
             plain_message = strip_tags(html_message)
-            from_email = 'ing.luisrobertoromano@gmail.com'
-            to = 'lromano@adiuc.org.ar'
+            from_email = f'{settings.EMAIL_HOST_NAME} <{settings.EMAIL_HOST_USER}>'
+            to = settings.EMAIL_RECEIVER
 
             send_mail(
                 subject,
