@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    image: pcatia:1.0
+    entrypoint: ["sh", "./entrypoint.sh"]
+    #command: gunicorn --bind 0.0.0.0:8000 pcatia.wsgi:application
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file: 
+      - .env  # Referencia a tu archivo .env existente
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    env_file:
+      - .env  # Reutiliza las variables de la base de datos definidas en tu archivo .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
