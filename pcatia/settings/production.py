@@ -6,7 +6,7 @@ from decouple import config
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['pcatia.luisromano.com.ar','localhost']
+ALLOWED_HOSTS = [config('DJANGO_DOMAIN'),'localhost']
 
 # Asignar las variables de configuración desde el JSON
 DATABASES = {
